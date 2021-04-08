@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
     container: {
         padding: 10,
         borderBottomWidth: 1,
-        borderColor: "#BBB"
+        borderColor: "#BBB",
+        width: "100%"
     },
     rowContainer: {
         flexDirection: 'row',
