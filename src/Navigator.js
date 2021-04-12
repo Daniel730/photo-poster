@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Feed from './screens/Feed'
+import AddPhoto from './screens/AddPhoto'
+import Auth from './screens/Auth'
 
 const Tab = createBottomTabNavigator();
 
@@ -30,9 +32,9 @@ export default props = () => {
                 showLabel: false
             }}
         >
-          <Tab.Screen name="AddPhoto" component={Feed} />
+          <Tab.Screen name="AddPhoto" component={AddPhoto} />
           <Tab.Screen name="Feed" component={Feed} />
-          <Tab.Screen name="Profile" component={Feed} />
+          <Tab.Screen name="Profile" component={Auth} />
         </Tab.Navigator>
       </NavigationContainer>
     );
