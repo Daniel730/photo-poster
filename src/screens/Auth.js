@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import { TextInput, View, TouchableOpacity, StyleSheet, Text } from "react-native"
-import Profile from "./Profile"
 
 export default class Auth extends Component{
     state = {

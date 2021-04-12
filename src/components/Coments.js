@@ -6,7 +6,6 @@ export default class Comments extends Component{
         let view = null
         if(this.props.comments){
             view = this.props.comments.map((item, index) => {
-                console.log(item)
                 return(
                     <View style={styles.commentContainer} key={index}>
                         <Text style={styles.nickname}>{item.nickname}: </Text>
