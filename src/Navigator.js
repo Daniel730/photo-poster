@@ -23,7 +23,6 @@ export default props = () => {
                     }else{
                         iconName = "user"
                     }
-
                     return <Icon name={iconName} size={30} color={color} />  
                 }
             })}
@@ -34,7 +33,7 @@ export default props = () => {
         >
           <Tab.Screen name="AddPhoto" component={AddPhoto} />
           <Tab.Screen name="Feed" component={Feed} />
-          <Tab.Screen name="Profile" component={Auth} />
+          <Tab.Screen name="Auth" component={Auth} />
         </Tab.Navigator>
       </NavigationContainer>
     );

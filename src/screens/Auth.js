@@ -1,22 +1,45 @@
 import React, { Component } from "react"
 import { TextInput, View, TouchableOpacity, StyleSheet, Text } from "react-native"
+import { connect } from "react-redux"
+import { login, logout } from "../store/actons/user"
+import { Gravatar } from "react-native-gravatar";
 
-export default class Auth extends Component{
+class Auth extends Component{
     state = {
-        isLoggedIn: true,
-        isRegister: true,
-        name: '',
-        email: '',
-        password: ''
+        isLoggedIn: false,
+        isRegister: false,
+        name: 'Dan',
+        email: 'daniel.730@outlook.com',
+        password: '',
+    }
+
+    logout = () => {
+        this.setState({isLoggedIn: false})
+        this.props.onLogout()
     }
 
     send = () => {
-        console.warn(`Registrar: ${this.state.isRegister}`)
+        if(!this.state.isRegister){
+            this.setState({isLoggedIn: true});
+            this.props.onLogin({...this.state})
+        }else{
+
+        }
     }
 
     render(){
+        const options = {email: this.state.email, secure: true}
         if(this.state.isLoggedIn){
-            return <Profile />
+            return(
+                <View style={styles.container}>
+                    <Gravatar options={options} style={styles.gravatar} />
+                    <Text style={styles.nickname}>{this.state.name}</Text>
+                    <Text style={styles.email}>{this.state.email}</Text>
+                    <TouchableOpacity onPress={this.logout} style={styles.button}>
+                        <Text style={styles.textButtom}>Sair</Text>
+                    </TouchableOpacity>
+                </View>
+            )
         }
         return(
             <View style={styles.container}>
@@ -26,7 +49,7 @@ export default class Auth extends Component{
                 }
                 <TextInput placeholderTextColor="#000" placeholder='Email' style={styles.input} keyboardType="email-address" value={this.state.email} onChangeText={email => this.setState({email})} />
                 <TextInput placeholderTextColor="#000" placeholder='Password' style={styles.input} secureTextEntry value={this.state.password} onChangeText={password => this.setState({password})} />
-                <TouchableOpacity onPress={this.send} style={styles.button}>
+                <TouchableOpacity onPress={ this.send } style={styles.button}>
                     <Text style={styles.buttonText}>{this.state.isRegister ? "Cadastrar" : "Login" }</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.setState({isRegister: !this.state.isRegister})} style={styles.button}>
@@ -61,5 +84,31 @@ const styles = StyleSheet.create({
         borderColor: "#333",
         color: "black",
     },
+    textButtom: {
+        fontSize: 20,
+        color: "#fff"
+    },
+    nickname:   {
+        fontSize: 30,
+        margin: 30,
+    },
+    email: {    
+        fontWeight: "bold",
+        fontSize: 20
+    },
+    gravatar: {
+        width: 150,
+        height: 150,
+        borderRadius: 75
+    }
 
 })
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onLogin: user => dispatch(login(user)),
+        onLogout: () => dispatch(logout())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Auth)
