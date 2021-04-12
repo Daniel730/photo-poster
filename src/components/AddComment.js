@@ -1,15 +1,25 @@
 import React, { Component } from "react"
+import { connect } from 'react-redux'
+import { addComment } from '../store/actons/post'
 import { View, Alert, TextInput, TouchableWithoutFeedback as TWF, StyleSheet, Text } from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome"
 
-export default class AddComment extends Component {
+class AddComment extends Component {
     state = { 
         comment: "",
         editMode: false
     }
 
     handleAddComment = () => {
-        Alert.alert("Adicionado!", this.state.comment)
+        this.props.onAddComment({
+            postId: this.props.postId,
+            comment: {
+                nickname: this.props.name,
+                comment: this.state.comment
+            }
+        })
+
+        this.setState({ comment: '', editMode: false })
     }
     
     render(){
@@ -20,6 +30,7 @@ export default class AddComment extends Component {
             commentArea = (
                 <View style={styles.container}>
                     <TextInput 
+                        placeholderTextColor="#CCC"
                         placeholder="Escreva algo..." 
                         style={styles.input} autoFocus 
                         value={this.state.comment} 
@@ -64,6 +75,21 @@ const styles = StyleSheet.create({
         color: "#CCC"
     },
     input: {
+        color: "black",
         width: "90%"
     }
 })
+
+const mapStateToProps = ({user}) => {
+    return{
+        name: user.name
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddComment: payload => dispatch(addComment(payload))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddComment)
