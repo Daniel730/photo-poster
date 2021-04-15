@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { addPost } from '../store/actons/post'
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Dimensions, Platform, ScrollView, Alert, Touchable } from 'react-native'
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import Icon from   'react-native-vector-icons/FontAwesome'
 
 class AddPhoto extends Component{
     state = {
@@ -28,14 +29,32 @@ class AddPhoto extends Component{
     }
 
     render(){
+        const noUser = "Você precisa estar logado para adicioanr uma imagem!"
+
         const options = {
             maxHeight: 600,
             maxWidth: 800
         }
         const callback = res => {
+            if(!this.props.name){
+                Alert.alert("falha!", noUser)
+            }
             if(!res.didCancel){
                 this.setState({image: {uri: res.uri, base64: res.data}})
             }
+        }
+        if(!this.props.name){
+            return(
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <Icon name="exclamation-circle" size={100} color="orange" />
+                    <Text style={{fontSize: 40, fontWeight: 'bold', margin: 30}}>
+                        Oops...
+                    </Text>
+                    <Text style={{fontSize: 20}}>
+                        Você precisa estar logado para adicionar uma imagem!
+                    </Text>
+                </View>
+            )
         }
         return(
             <ScrollView>
